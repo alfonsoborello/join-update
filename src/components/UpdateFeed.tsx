@@ -128,29 +128,33 @@ export const UpdateFeed: React.FC<{ user: User | null }> = ({ user }) => {
           <textarea
             value={newUpdate}
             onChange={(e) => setNewUpdate(e.target.value)}
+            maxLength={300}
             placeholder={`Write an update as ${user.displayName || user.poeticKey}...`}
-            className="w-full p-4 border border-[#CCCCCC] bg-black text-[#CCCCCC] focus:outline-none focus:ring-1 focus:ring-[#CCCCCC] resize-none h-32 font-sans"
+            style={{ 
+              opacity: newUpdate.length <= 250 
+                ? 1 
+                : 1 - ((newUpdate.length - 250) / 50) * 0.7
+            }}
+            className="w-full p-4 border border-[#CCCCCC] bg-black text-[#CCCCCC] focus:outline-none focus:ring-1 focus:ring-[#CCCCCC] resize-none h-32 font-sans transition-opacity duration-300"
           />
           <div className="flex justify-between items-center mt-2">
-            <div className={`text-[9px] font-mono uppercase tracking-widest transition-opacity duration-500 ${newUpdate.length > 200 ? 'opacity-40' : 'opacity-0'}`}>
+            <div className={`text-[9px] font-mono uppercase tracking-widest transition-all duration-300 ${newUpdate.length > 200 ? 'opacity-40' : 'opacity-0'} ${newUpdate.length >= 280 ? 'text-red-500 opacity-100' : ''}`}>
               Signal Strength: {Math.max(0, 300 - newUpdate.length)}
             </div>
-            <button
-              type="submit"
-              disabled={newUpdate.length > 300}
-              style={{ 
-                opacity: newUpdate.length <= 250 
-                  ? 1 
-                  : newUpdate.length > 300 
-                    ? 0 
-                    : 1 - ((newUpdate.length - 250) / 50) * 0.8,
-                pointerEvents: newUpdate.length > 300 ? 'none' : 'auto'
-              }}
-              className="bg-[#CCCCCC] text-black px-8 py-3 font-bold uppercase tracking-widest hover:bg-[#CCCCCC]/90 transition-all flex items-center justify-center gap-2"
-            >
-              <Send size={16} />
-              Post Update
-            </button>
+            {newUpdate.length <= 300 && (
+              <button
+                type="submit"
+                style={{ 
+                  opacity: newUpdate.length <= 250 
+                    ? 1 
+                    : 1 - ((newUpdate.length - 250) / 50) * 0.8
+                }}
+                className="bg-[#CCCCCC] text-black px-8 py-3 font-bold uppercase tracking-widest hover:bg-[#CCCCCC]/90 transition-all flex items-center justify-center gap-2"
+              >
+                <Send size={16} />
+                Post Update
+              </button>
+            )}
           </div>
         </form>
       )}
