@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /the-matrix
+Disallow: /private
+
+# No metrics. No trackers. Just updates.

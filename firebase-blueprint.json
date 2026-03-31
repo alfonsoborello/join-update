@@ -1,0 +1,60 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "A user of the UPDATE platform.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The unique Firebase Auth UID." },
+        "email": { "type": "string", "description": "The user's email address." },
+        "displayName": { "type": "string", "description": "The user's display name from Auth." },
+        "poeticKey": { "type": "string", "description": "The unique Adjective-Noun-Number key." },
+        "role": { "type": "string", "enum": ["admin", "user"], "description": "The user's role." }
+      },
+      "required": ["uid", "email", "poeticKey"]
+    },
+    "PublicUpdate": {
+      "title": "Public Update",
+      "description": "A curated broadcast update.",
+      "type": "object",
+      "properties": {
+        "content": { "type": "string", "description": "The text content of the update." },
+        "timestamp": { "type": "string", "format": "date-time", "description": "When the update was posted." },
+        "authorUid": { "type": "string", "description": "The UID of the author (Alfonso Borello)." }
+      },
+      "required": ["content", "timestamp", "authorUid"]
+    },
+    "PrivateUpdate": {
+      "title": "Private Update",
+      "description": "An encrypted P2P message.",
+      "type": "object",
+      "properties": {
+        "content": { "type": "string", "description": "The encrypted text content." },
+        "timestamp": { "type": "string", "format": "date-time", "description": "When the message was sent." },
+        "senderUid": { "type": "string", "description": "The UID of the sender." },
+        "recipientUid": { "type": "string", "description": "The UID of the recipient." },
+        "senderKey": { "type": "string", "description": "The Poetic Key of the sender." },
+        "recipientKey": { "type": "string", "description": "The Poetic Key of the recipient." }
+      },
+      "required": ["content", "timestamp", "senderUid", "recipientUid", "senderKey", "recipientKey"]
+    },
+    "ActivityLog": {
+      "title": "Activity Log",
+      "description": "A log entry for the Admin Matrix.",
+      "type": "object",
+      "properties": {
+        "timestamp": { "type": "string", "format": "date-time", "description": "When the activity occurred." },
+        "senderKey": { "type": "string", "description": "The Poetic Key of the sender." },
+        "recipientKey": { "type": "string", "description": "The Poetic Key of the recipient (optional for public)." },
+        "type": { "type": "string", "enum": ["public", "private"], "description": "The type of update." }
+      },
+      "required": ["timestamp", "senderKey", "type"]
+    }
+  },
+  "firestore": {
+    "/users/{uid}": { "schema": "User", "description": "User profiles and keys." },
+    "/publicUpdates/{updateId}": { "schema": "PublicUpdate", "description": "Public curated feed." },
+    "/privateUpdates/{messageId}": { "schema": "PrivateUpdate", "description": "Encrypted P2P messages." },
+    "/activityLogs/{logId}": { "schema": "ActivityLog", "description": "Activity logs for admin." }
+  }
+}

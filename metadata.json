@@ -1,0 +1,5 @@
+{
+  "name": "UPDATE",
+  "description": "A minimalist, full-stack broadcast and private messaging platform. No metrics. No trackers. Just updates.",
+  "requestFramePermissions": []
+}
