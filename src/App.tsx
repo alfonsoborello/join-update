@@ -66,23 +66,30 @@ const Layout: React.FC<{
       transition={{ duration: isIdle ? 5 : 2, ease: "easeInOut" }}
       className="min-h-screen flex flex-col bg-black text-[#CCCCCC]"
     >
-      <header className="py-12 border-b border-[#CCCCCC]/5">
-        <div className="max-w-4xl mx-auto px-4 flex flex-col items-center gap-8">
-          <Link to="/">
+      <header className="py-8 md:py-12 border-b border-[#CCCCCC]/10">
+        <div className="max-w-4xl mx-auto px-4 flex flex-col items-center gap-6 md:gap-8">
+          <Link to="/" className="hover:opacity-80 transition-opacity">
             <Logo />
           </Link>
           
-          <nav className="flex items-center gap-8 text-[10px] uppercase tracking-[0.3em] font-mono">
-            <Link to="/" className={`hover:text-[#CCCCCC] transition-colors ${location.pathname === '/' ? 'text-[#CCCCCC] font-bold' : 'text-[#CCCCCC]/40'}`}>
+          <nav className="flex items-center gap-6 md:gap-8 text-[11px] md:text-xs uppercase tracking-[0.3em] font-mono">
+            <Link to="/" className={`hover:text-white transition-colors ${location.pathname === '/' ? 'text-white font-bold' : 'text-[#CCCCCC]/60'}`}>
               Broadcast
             </Link>
-            {user && (
-              <Link to="/private" className={`hover:text-[#CCCCCC] transition-colors ${location.pathname === '/private' ? 'text-[#CCCCCC] font-bold' : 'text-[#CCCCCC]/40'}`}>
+            {user ? (
+              <Link to="/private" className={`hover:text-white transition-colors ${location.pathname === '/private' ? 'text-white font-bold' : 'text-[#CCCCCC]/60'}`}>
                 Private
               </Link>
+            ) : (
+              <button 
+                onClick={onLogin}
+                className="text-[#CCCCCC]/60 hover:text-white transition-colors uppercase tracking-[0.3em]"
+              >
+                Join
+              </button>
             )}
             {user?.role === 'admin' && (
-              <Link to="/the-matrix" className="text-red-600/40 hover:text-red-600 transition-colors">
+              <Link to="/the-matrix" className="text-red-500/60 hover:text-red-500 transition-colors">
                 Matrix
               </Link>
             )}
@@ -99,11 +106,11 @@ const Layout: React.FC<{
           {user ? (
             <div className="flex flex-col items-center gap-4">
               <div className="flex items-center gap-6">
-                <div className="text-[10px] font-mono text-[#CCCCCC]/40 uppercase tracking-widest">
-                  Key: <span className="text-[#CCCCCC] font-bold">{user.poeticKey}</span>
+                <div className="text-[10px] font-mono text-[#CCCCCC]/60 uppercase tracking-widest">
+                  Key: <span className="text-white font-bold">{user.poeticKey}</span>
                 </div>
                 
-                <div className="flex items-center gap-2 text-[10px] font-mono text-[#CCCCCC]/40 uppercase tracking-widest">
+                <div className="flex items-center gap-2 text-[10px] font-mono text-[#CCCCCC]/60 uppercase tracking-widest">
                   <Globe size={10} />
                   {isEditingLang ? (
                     <input
@@ -121,12 +128,12 @@ const Layout: React.FC<{
                           onUpdateLanguage(tempLang);
                         }
                       }}
-                      className="bg-transparent border-b border-[#CCCCCC]/20 focus:outline-none text-[#CCCCCC] w-24 lowercase"
+                      className="bg-transparent border-b border-[#CCCCCC]/20 focus:outline-none text-white w-24 lowercase"
                     />
                   ) : (
                     <span 
                       onClick={() => setIsEditingLang(true)}
-                      className="text-[#CCCCCC] cursor-pointer hover:text-white transition-colors lowercase"
+                      className="text-white cursor-pointer hover:text-white transition-colors lowercase"
                     >
                       {user.preferredLanguage || 'English'}
                     </span>
@@ -136,7 +143,7 @@ const Layout: React.FC<{
 
               <button
                 onClick={onLogout}
-                className="text-[10px] font-mono text-[#CCCCCC]/20 hover:text-[#CCCCCC] transition-colors uppercase tracking-widest flex items-center gap-1"
+                className="text-[10px] font-mono text-[#CCCCCC]/40 hover:text-white transition-colors uppercase tracking-widest flex items-center gap-1"
               >
                 <LogOut size={10} />
                 Disconnect
@@ -219,7 +226,7 @@ export default function App() {
   if (loading) {
     return (
       <div className="h-screen flex items-center justify-center bg-black">
-        <div className="text-[10px] font-mono tracking-[0.5em] text-[#CCCCCC]/20 animate-pulse">
+        <div className="text-[10px] font-mono tracking-[0.5em] text-[#CCCCCC]/40 animate-pulse">
           INITIALIZING_UPDATE...
         </div>
       </div>

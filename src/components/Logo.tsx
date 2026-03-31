@@ -3,7 +3,7 @@ import React from 'react';
 export const Logo: React.FC<{ className?: string }> = ({ className }) => {
   return (
     <div className={`flex flex-col items-center select-none ${className}`}>
-      <div className="text-4xl font-bold tracking-tighter text-[#CCCCCC] flex items-center">
+      <div className="text-4xl font-bold tracking-tighter text-white flex items-center">
         <div className="relative w-8 h-10 flex items-center justify-center mr-1">
           {/* Geometric U with integrated arrow */}
           <svg viewBox="0 0 100 120" className="w-full h-full fill-current">
@@ -13,7 +13,7 @@ export const Logo: React.FC<{ className?: string }> = ({ className }) => {
         </div>
         <span>PDATE</span>
       </div>
-      <div className="text-[10px] uppercase tracking-[0.2em] text-[#CCCCCC]/60 mt-1">
+      <div className="text-[10px] uppercase tracking-[0.2em] text-[#CCCCCC]/80 mt-1">
         No metrics. No trackers. Just updates.
       </div>
     </div>
