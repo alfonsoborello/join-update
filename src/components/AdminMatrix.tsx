@@ -11,7 +11,7 @@ export const AdminMatrix: React.FC<{ user: User }> = ({ user }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (user.role !== 'admin') return;
+    if (user.email !== 'alfonsoborello@gmail.com') return;
 
     const q = query(collection(db, 'activityLogs'), orderBy('timestamp', 'desc'));
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -31,9 +31,9 @@ export const AdminMatrix: React.FC<{ user: User }> = ({ user }) => {
 
     fetchStats();
     return () => unsubscribe();
-  }, [user.role]);
+  }, [user.email]);
 
-  if (user.role !== 'admin') {
+  if (user.email !== 'alfonsoborello@gmail.com') {
     return (
       <div className="h-screen flex items-center justify-center bg-black text-red-600 font-mono text-xs tracking-[0.5em]">
         ACCESS DENIED // UNAUTHORIZED_UID

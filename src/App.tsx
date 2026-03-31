@@ -76,20 +76,11 @@ const Layout: React.FC<{
             <Link to="/" className={`hover:text-white transition-colors ${location.pathname === '/' ? 'text-white font-bold' : 'text-[#CCCCCC]/60'}`}>
               Broadcast
             </Link>
-            {user ? (
-              <Link to="/private" className={`hover:text-white transition-colors ${location.pathname === '/private' ? 'text-white font-bold' : 'text-[#CCCCCC]/60'}`}>
-                Private
-              </Link>
-            ) : (
-              <button 
-                onClick={onLogin}
-                className="text-[#CCCCCC]/60 hover:text-white transition-colors uppercase tracking-[0.3em]"
-              >
-                Join
-              </button>
-            )}
-            {user?.role === 'admin' && (
-              <Link to="/the-matrix" className="text-red-500/60 hover:text-red-500 transition-colors">
+            <Link to="/private" className={`hover:text-white transition-colors ${location.pathname === '/private' ? 'text-white font-bold' : 'text-[#CCCCCC]/60'}`}>
+              Private
+            </Link>
+            {user?.email === 'alfonsoborello@gmail.com' && (
+              <Link to="/the-matrix" className={`hover:text-red-500 transition-colors ${location.pathname === '/the-matrix' ? 'text-red-500 font-bold' : 'text-red-500/60'}`}>
                 Matrix
               </Link>
             )}
