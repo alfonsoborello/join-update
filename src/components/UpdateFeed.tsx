@@ -9,8 +9,6 @@ import { YouTubeEmbed } from './YouTubeEmbed';
 import { GooglePlayBookEmbed } from './GooglePlayBookEmbed';
 import { GoogleGenAI } from "@google/genai";
 
-const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || '' });
-
 export const UpdateFeed: React.FC<{ user: User | null }> = ({ user }) => {
   const [updates, setUpdates] = useState<PublicUpdate[]>([]);
   const [newUpdate, setNewUpdate] = useState('');
@@ -95,9 +93,10 @@ export const UpdateFeed: React.FC<{ user: User | null }> = ({ user }) => {
 
     try {
       const targetLang = user?.preferredLanguage || 'English';
-      const result = await genAI.models.generateContent({
+      const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || '' });
+      const result = await ai.models.generateContent({
         model: "gemini-3-flash-preview",
-        contents: [{ role: 'user', parts: [{ text: `Translate the following text to ${targetLang}. Return ONLY the translated text, no extra commentary:\n\n${content}` }] }],
+        contents: `Translate the following text to ${targetLang}. Return ONLY the translated text, no extra commentary:\n\n${content}`,
         config: {
           temperature: 0.1,
         }
