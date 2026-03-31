@@ -20,7 +20,6 @@ const Layout: React.FC<{
   onUpdateLanguage: (lang: string) => void;
 }> = ({ children, user, onLogin, onLogout, onUpdateLanguage }) => {
   const location = useLocation();
-  const isAdminRoute = location.pathname === '/the-matrix';
   const [isIdle, setIsIdle] = useState(false);
   const [isEditingLang, setIsEditingLang] = useState(false);
   const [tempLang, setTempLang] = useState(user?.preferredLanguage || 'English');
@@ -58,8 +57,7 @@ const Layout: React.FC<{
     };
   }, []);
 
-  if (isAdminRoute) return <>{children}</>;
-
+  // Removed conditional return to ensure header is visible on all routes including admin
   return (
     <motion.div 
       animate={{ opacity: isIdle ? 0.4 : 1 }}

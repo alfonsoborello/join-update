@@ -42,7 +42,7 @@ export const AdminMatrix: React.FC<{ user: User }> = ({ user }) => {
   }
 
   return (
-    <div className="min-h-screen bg-black text-[#CCCCCC] font-mono p-8">
+    <div className="bg-black text-[#CCCCCC] font-mono p-4 md:p-8">
       <div className="max-w-4xl mx-auto">
         <header className="mb-12 border-b border-[#CCCCCC]/10 pb-8">
           <h1 className="text-xl tracking-[0.5em] mb-4">ADMIN_MATRIX</h1>
