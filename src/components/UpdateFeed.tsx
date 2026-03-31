@@ -94,9 +94,10 @@ export const UpdateFeed: React.FC<{ user: User | null }> = ({ user }) => {
     try {
       const targetLang = user?.preferredLanguage || 'English';
       // Use process.env which is defined in vite.config.ts
-      const apiKey = process.env.GEMINI_API_KEY;
+      // We also check for the string 'undefined' which can happen if JSON.stringify(undefined) is used in define
+      const apiKey = (process.env as any).GEMINI_API_KEY;
       
-      if (!apiKey || apiKey === 'undefined') {
+      if (!apiKey || apiKey === 'undefined' || apiKey === '') {
         console.error('GEMINI_API_KEY is not defined. Translation will not work. Please ensure it is set in your environment variables.');
         setTranslations(prev => ({
           ...prev,
