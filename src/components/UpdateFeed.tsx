@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { collection, query, orderBy, onSnapshot, addDoc, serverTimestamp, deleteDoc, doc } from 'firebase/firestore';
-import { db, auth } from '../firebase';
+import { db, auth, signIn } from '../firebase';
 import { PublicUpdate, User } from '../types';
 import { Share2, Trash2, Send, Languages, Loader2 } from 'lucide-react';
 import { format } from 'date-fns';
@@ -10,6 +11,7 @@ import { GooglePlayBookEmbed } from './GooglePlayBookEmbed';
 import { GoogleGenAI } from "@google/genai";
 
 export const UpdateFeed: React.FC<{ user: User | null }> = ({ user }) => {
+  const navigate = useNavigate();
   const [updates, setUpdates] = useState<PublicUpdate[]>([]);
   const [newUpdate, setNewUpdate] = useState('');
   const [loading, setLoading] = useState(true);
@@ -236,9 +238,12 @@ export const UpdateFeed: React.FC<{ user: User | null }> = ({ user }) => {
                   <span className="text-[10px] text-[#CCCCCC]/40 uppercase tracking-wider">
                     {update.timestamp ? format(update.timestamp.toDate(), 'MMM d, yyyy · HH:mm') : 'Just now'}
                   </span>
-                  <span className="text-sm text-[#666666] italic mt-1">
+                  <button 
+                    onClick={() => user ? navigate('/private') : signIn()}
+                    className="text-sm text-[#666666] italic mt-1 text-left hover:text-[#CCCCCC] cursor-pointer transition-colors"
+                  >
                     unhappy? join UPDATE
-                  </span>
+                  </button>
                 </div>
 
                 <div className="flex items-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
