@@ -93,27 +93,43 @@ export const UpdateFeed: React.FC<{ user: User | null }> = ({ user }) => {
 
     try {
       const targetLang = user?.preferredLanguage || 'English';
-      const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || '' });
-      const result = await ai.models.generateContent({
+      // Use process.env which is defined in vite.config.ts
+      const apiKey = process.env.GEMINI_API_KEY;
+      
+      if (!apiKey || apiKey === 'undefined') {
+        console.error('GEMINI_API_KEY is not defined. Translation will not work. Please ensure it is set in your environment variables.');
+        setTranslations(prev => ({
+          ...prev,
+          [updateId]: { text: 'Error: Translation service not configured (API Key missing).', loading: false }
+        }));
+        return;
+      }
+
+      const ai = new GoogleGenAI({ apiKey });
+      const response = await ai.models.generateContent({
         model: "gemini-3-flash-preview",
-        contents: `Translate the following text to ${targetLang}. Return ONLY the translated text, no extra commentary:\n\n${content}`,
+        contents: [{ parts: [{ text: `Translate the following text to ${targetLang}. Return ONLY the translated text, no extra commentary:\n\n${content}` }] }],
         config: {
           temperature: 0.1,
         }
       });
       
-      const translatedText = result.text || '';
+      const translatedText = response.text;
+      if (!translatedText) {
+        throw new Error('The translation service returned an empty response.');
+      }
+
       setTranslations(prev => ({
         ...prev,
         [updateId]: { text: translatedText, loading: false }
       }));
-    } catch (error) {
-      console.error('Translation error:', error);
-      setTranslations(prev => {
-        const next = { ...prev };
-        delete next[updateId];
-        return next;
-      });
+    } catch (error: any) {
+      console.error('Translation error details:', error);
+      const errorMessage = error?.message || 'Could not translate this update.';
+      setTranslations(prev => ({
+        ...prev,
+        [updateId]: { text: `Error: ${errorMessage}`, loading: false }
+      }));
     }
   };
 
